@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - GeForce</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tabs { display: flex; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid #e5e7eb; }
+        .tab-btn { padding: 8px 16px; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; font-weight: 500; }
+        .tab-btn.active { border-bottom-color: var(--primary); color: var(--primary); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        
+        .board { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px; }
+        .board-col { flex: 1; min-width: 300px; background: #f3f4f6; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; }
+        .board-col h3 { margin-top: 0; font-size: 14px; text-transform: uppercase; color: #4b5563; display: flex; justify-content: space-between; }
+        .board-cards { flex: 1; min-height: 100px; display: flex; flex-direction: column; gap: 8px; }
+        .board-card { background: white; padding: 12px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); cursor: grab; }
+        .board-card.dragging { opacity: 0.5; }
+        .board-col.drag-over { background: #e5e7eb; }
+        .board-empty { color: #9ca3af; text-align: center; padding: 20px; font-size: 13px; border: 2px dashed #d1d5db; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-container">
+        <div class="page-header" style="align-items: flex-start;">
+            <div>
+                <h1 id="projectName">Loading...</h1>
+                <p class="subtitle" id="projectDescription"></p>
+                <div style="margin-top: 12px; font-size: 14px; color: #4b5563;">
+                    Status: <span id="projectStatus"></span>
+                    &middot; Dates: <span id="projectDates"></span>
+                    &middot; Creator: <span id="projectCreator"></span>
+                </div>
+                <div id="projectProgress" style="margin-top: 12px; width: 300px;"></div>
+            </div>
+            <div style="display: flex; gap: 8px; flex-direction: column; align-items: flex-end;">
+                <div style="display: flex; gap: 8px;">
+                    <select id="projectStatusSelect">
+                        <option value="PLANNING">Planning</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="ON_HOLD">On Hold</option>
+                    </select>
+                    <button id="editProjectBtn" class="btn btn-secondary">Edit Project</button>
+                    <button id="deleteProjectBtn" class="btn btn-danger">Delete</button>
+                </div>
+                <button id="newTaskBtn" class="btn btn-primary">New Task</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="list">List View</button>
+            <button class="tab-btn" data-tab="board">Board View</button>
+            <button class="tab-btn" data-tab="members">Members</button>
+        </div>
+
+        <!-- Task List Tab -->
+        <div id="tab-list" class="tab-panel active">
+            <div class="toolbar">
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="TODO">To Do</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                </select>
+                <select id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                </select>
+                <button id="exportCsvBtn" class="btn btn-secondary">Export CSV</button>
+            </div>
+            <div id="taskList" class="card-list"></div>
+        </div>
+
+        <!-- Board Tab -->
+        <div id="tab-board" class="tab-panel">
+            <div id="board" class="board">
+                <div class="board-col" data-status="TODO">
+                    <h3>To Do <span class="board-count badge">0</span></h3>
+                    <div class="board-cards"></div>
+                </div>
+                <div class="board-col" data-status="IN_PROGRESS">
+                    <h3>In Progress <span class="board-count badge">0</span></h3>
+                    <div class="board-cards"></div>
+                </div>
+                <div class="board-col" data-status="COMPLETED">
+                    <h3>Completed <span class="board-count badge">0</span></h3>
+                    <div class="board-cards"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Members Tab -->
+        <div id="tab-members" class="tab-panel">
+            <div style="margin-bottom: 16px;">
+                <button id="addMemberBtn" class="btn btn-secondary">Add Member</button>
+            </div>
+            <div id="memberList" class="card-list"></div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Edit Project Modal -->
+    <div id="projectEditModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Edit Project</h2>
+            <div id="projectEditError" class="alert alert-error hidden"></div>
+            <form id="projectEditForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="editProjName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editProjDescription" rows="3"></textarea>
+                </div>
+                <div style="display:flex; gap:12px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Start Date</label>
+                        <input type="date" id="editProjStartDate">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>End Date</label>
+                        <input type="date" id="editProjEndDate">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelProjectEditBtn" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" id="saveProjectEditBtn" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div id="memberModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 400px;">
+            <h2>Add Member</h2>
+            <div id="memberFormError" class="alert alert-error hidden"></div>
+            <form id="memberForm">
+                <div class="form-group">
+                    <label>Select User</label>
+                    <select id="memberUserId" required></select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelMemberModalBtn" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" id="saveMemberBtn" class="btn btn-primary">Add Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create/Edit Task Modal -->
+    <div id="taskModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 id="taskModalTitle">New Task</h2>
+            <div id="taskFormError" class="alert alert-error hidden"></div>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="taskDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="taskPriority" required>
+                        <option value="LOW">Low</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HIGH">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date" id="taskDeadline">
+                </div>
+                <div class="form-group">
+                    <label>Assign To</label>
+                    <select id="taskAssignee"></select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelTaskModalBtn" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" id="saveTaskBtn" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Detail Modal -->
+    <div id="taskDetailModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 600px;">
+            <div style="display:flex; justify-content: space-between; align-items: flex-start;">
+                <h2 id="taskDetailTitle" style="margin-top:0;"></h2>
+                <button id="closeTaskDetailBtn" style="background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
+            </div>
+            
+            <div style="display:flex; gap: 12px; margin-bottom: 16px;">
+                <select id="taskStatusSelect">
+                    <option value="TODO">To Do</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                </select>
+                <select id="taskPrioritySelect">
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                </select>
+                <button id="editTaskFromDetailBtn" class="btn btn-secondary">Edit Task</button>
+                <button id="deleteTaskFromDetailBtn" class="btn btn-danger">Delete</button>
+            </div>
+
+            <div style="background: #f9fafb; padding: 12px; border-radius: 6px; margin-bottom: 24px;">
+                <p><strong>Description:</strong> <span id="taskDetailDescription"></span></p>
+                <p><strong>Assigned To:</strong> <span id="taskDetailAssignee"></span></p>
+                <p><strong>Deadline:</strong> <span id="taskDetailDeadline"></span></p>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
+            
+            <h3>Comments</h3>
+            <div id="commentList" style="margin-bottom: 16px; max-height: 200px; overflow-y: auto;"></div>
+            
+            <form id="commentForm" style="display: flex; gap: 8px;">
+                <input type="text" id="commentInput" placeholder="Add a comment..." style="flex:1;" required>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/project-details.js"></script>
+</body>
+</html>
+

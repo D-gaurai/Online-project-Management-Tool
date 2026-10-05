@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <title>GeForce - Online Project Management Tool</title>
+    <script>
+        // Simple redirect: logged-in users go to dashboard, others to login.
+        if (localStorage.getItem("token")) {
+            window.location.href = "dashboard.html";
+        } else {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+<body></body>
+</html>
+

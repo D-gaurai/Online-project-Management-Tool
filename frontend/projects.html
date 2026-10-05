@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - GeForce</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-container">
+        <div class="page-header">
+            <div>
+                <h1>Projects</h1>
+                <p class="subtitle">All projects you have access to</p>
+            </div>
+            <button class="btn btn-primary" id="newProjectBtn">+ New Project</button>
+        </div>
+
+        <div class="toolbar">
+            <input type="text" id="searchInput" placeholder="Search projects by name...">
+            <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted); white-space:nowrap;">
+                <input type="checkbox" id="myProjectsOnly"> My Projects Only
+            </label>
+            <select id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="ACTIVE">Active</option>
+                <option value="ON_HOLD">On Hold</option>
+                <option value="COMPLETED">Completed</option>
+            </select>
+        </div>
+
+        <div id="projectList" class="card-list"></div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-box">
+            <h2>Create New Project</h2>
+            <div id="projectFormError" class="alert alert-error"></div>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projName">Project Name</label>
+                    <input type="text" id="projName" required placeholder="e.g. College Website Redesign">
+                </div>
+                <div class="form-group">
+                    <label for="projDescription">Description</label>
+                    <textarea id="projDescription" rows="3" placeholder="What is this project about?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projStartDate">Start Date</label>
+                    <input type="date" id="projStartDate">
+                </div>
+                <div class="form-group">
+                    <label for="projEndDate">End Date</label>
+                    <input type="date" id="projEndDate">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-auto" id="saveProjectBtn">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/projects.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GeForce</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-container">
+        <div class="page-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p class="subtitle">A quick overview of your projects and tasks</p>
+            </div>
+        </div>
+
+        <div id="loadingState" class="loading-state"><div class="spinner"></div></div>
+
+        <div id="dashboardContent" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card stat-blue" onclick="window.location.href='projects.html'" style="cursor: pointer;">
+                    <div class="stat-label">Total Projects</div>
+                    <div class="stat-value" id="totalProjects">0</div>
+                </div>
+                <div class="stat-card stat-green" onclick="window.location.href='projects.html?status=ACTIVE'" style="cursor: pointer;">
+                    <div class="stat-label">Active Projects</div>
+                    <div class="stat-value" id="activeProjects">0</div>
+                </div>
+                <div class="stat-card stat-purple" onclick="window.location.href='projects.html?status=COMPLETED'" style="cursor: pointer;">
+                    <div class="stat-label">Completed Projects</div>
+                    <div class="stat-value" id="completedProjects">0</div>
+                </div>
+                <div class="stat-card stat-blue" onclick="window.location.href='tasks.html'" style="cursor: pointer;">
+                    <div class="stat-label">My Total Tasks</div>
+                    <div class="stat-value" id="totalTasks">0</div>
+                </div>
+                <div class="stat-card stat-orange" onclick="window.location.href='tasks.html?status=IN_PROGRESS'" style="cursor: pointer;">
+                    <div class="stat-label">My Pending Tasks</div>
+                    <div class="stat-value" id="pendingTasks">0</div>
+                </div>
+                <div class="stat-card stat-green" onclick="window.location.href='tasks.html?status=COMPLETED'" style="cursor: pointer;">
+                    <div class="stat-label">My Completed Tasks</div>
+                    <div class="stat-value" id="completedTasks">0</div>
+                </div>
+            </div>
+
+            <div class="section-title">My Tasks by Status</div>
+            <div class="stat-card" style="margin-bottom:26px;">
+                <div id="statusChart" class="chart-wrap"></div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; margin-top: 26px;">
+                <div style="flex: 1 1 300px; max-width: 350px;">
+                    <div class="section-title" style="margin-top:0;">Calendar</div>
+                    <div class="stat-card" style="padding: 16px; cursor: default;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <button id="prevMonth" class="btn btn-secondary" style="padding: 4px 10px; border-radius: 4px;">&lt;</button>
+                            <h3 id="calendarMonth" style="margin: 0; font-size: 15px; color: var(--text-main);"></h3>
+                            <button id="nextMonth" class="btn btn-secondary" style="padding: 4px 10px; border-radius: 4px;">&gt;</button>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 8px;">
+                            <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+                        </div>
+                        <div id="calendarDays" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: 13px;"></div>
+                    </div>
+                </div>
+                <div style="flex: 2 1 300px;">
+                    <div class="section-title" style="margin-top:0;">Upcoming Deadlines (next 7 days)</div>
+                    <div id="deadlineList" class="card-list"></div>
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top:26px;">Recent Activity</div>
+            <div id="activityList" class="card-list"></div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

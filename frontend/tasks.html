@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks - GeForce</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-container">
+        <div class="page-header">
+            <div>
+                <h1>My Tasks</h1>
+                <p class="subtitle">Tasks assigned to you across all projects</p>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input type="text" id="searchInput" placeholder="Search tasks by title...">
+            <select id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="TODO">To Do</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="COMPLETED">Completed</option>
+            </select>
+        </div>
+
+        <div id="taskList" class="card-list"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/tasks.js"></script>
+</body>
+</html>
+

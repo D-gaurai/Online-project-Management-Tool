@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - GeForce</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="page-container" style="max-width: 620px;">
+        <div class="page-header">
+            <div>
+                <h1>My Profile</h1>
+                <p class="subtitle">Manage your account details and password</p>
+            </div>
+        </div>
+
+        <div class="card-block" id="profileContent">
+            <div class="profile-top">
+                <span class="avatar avatar-xl" id="profileAvatar">?</span>
+                <div>
+                    <h2 id="profileHeading" style="margin-bottom:4px;">Loading...</h2>
+                    <span id="profileRoleBadge" class="badge badge-active"></span>
+                    <span id="profileStatusBadge" class="badge"></span>
+                </div>
+            </div>
+
+            <div id="profileError" class="alert alert-error"></div>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Full Name</label>
+                    <input type="text" id="profileName" required maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>Email (cannot be changed)</label>
+                    <p class="readonly-text" id="profileEmail"></p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-auto" id="saveProfileBtn">Save Changes</button>
+            </form>
+        </div>
+
+        <div class="card-block">
+            <h2>Change Password</h2>
+            <div id="passwordError" class="alert alert-error"></div>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" required placeholder="At least 6 characters">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-auto" id="savePasswordBtn">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - GeForce</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+    <div class="auth-card">
+        <h1>Create your account</h1>
+        <p class="subtitle">Start managing your projects with GeForce</p>
+
+        <div id="registerError" class="alert alert-error"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="At least 6 characters">
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" required>
+                    <option value="MEMBER">Member - view and update assigned tasks</option>
+                    <option value="MANAGER">Manager - create and manage projects</option>
+                    <option value="ADMIN">Admin - full system access</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="registerBtn">Create Account</button>
+        </form>
+
+        <p class="auth-footer">Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
+
