@@ -139,6 +139,13 @@ Do **not** just double-click the HTML file to open it directly in a browser (`fi
 
 ---
 
-## 10. Next Steps
+## 10. Progressive Web App (PWA)
+This project is configured as a Progressive Web App (PWA). You can install it directly to your desktop or mobile device.
+1. Run the frontend via Live Server.
+2. Look for the 'Install' icon in the address bar (Chrome/Edge).
+3. Click it to install the app locally.
 
-This covers a fully working core application (auth, projects, tasks, comments, in-app notifications, dashboard, search/filter). Still pending, per our phase plan: Postman API test documentation, UI polish pass, email notifications, and final project documentation/viva prep — ask your development partner (Claude) to continue with whichever phase you want next.
+11. Final Status
+This covers a fully working core application (auth, projects, tasks, comments, notifications, dashboard with calendar, drill-down filtering).
+Completed features include UI polish, PWA integration, and comprehensive viva documentation.
+Pending optional phase: Email notifications using Spring Boot Mail.
