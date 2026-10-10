@@ -54,7 +54,7 @@ document.getElementById("roleFilter").value;
     if (users.length === 0) {
         listEl.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">👤</div>
+                <div class="empty-icon"><i class='bx bx-group'></i></div>
                 <h3>No users found</h3>
                 <p>Try a different search or filter.</p>
             </div>`;

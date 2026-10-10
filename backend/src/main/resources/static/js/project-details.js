@@ -250,7 +250,7 @@ document.getElementById("priorityFilter").value;
         if (tasks.length === 0) {
             listEl.innerHTML = `
                 <div class="empty-state">
-                    <div class="empty-icon">📝</div>
+                    <div class="empty-icon"><i class='bx bx-folder-open'></i></div>
                     <h3>No tasks found</h3>
                     <p>Create a task to start tracking work on this project.</p>
                 </div>`;
