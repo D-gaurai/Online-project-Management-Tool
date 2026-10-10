@@ -1479,3 +1479,44 @@ body {
     color: #2b3674;
     font-size: 18px;
 }
+
+
+/* ============================================================
+   DARK MODE OVERRIDES FOR PROTEND THEME
+   ============================================================ */
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .dashboard-banner,
+[data-theme="dark"] .calendar-widget,
+[data-theme="dark"] .card-list {
+    background: var(--card-bg) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+}
+
+[data-theme="dark"] .banner-content h1,
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .stat-card .stat-value {
+    color: var(--text-main) !important;
+}
+
+[data-theme="dark"] .banner-content p,
+[data-theme="dark"] .stat-card .stat-label {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .item-card {
+    border-color: var(--border) !important;
+}
+
+/* Convert pastel cards to dark cards in dark mode for readability */
+[data-theme="dark"] .stats-grid .stat-card:nth-child(1),
+[data-theme="dark"] .stats-grid .stat-card:nth-child(2),
+[data-theme="dark"] .stats-grid .stat-card:nth-child(3),
+[data-theme="dark"] .stats-grid .stat-card:nth-child(4),
+[data-theme="dark"] .stats-grid .stat-card:nth-child(5) {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+}
+
+[data-theme="dark"] .stats-grid .stat-card:nth-child(6) {
+    background: var(--primary) !important;
+}
